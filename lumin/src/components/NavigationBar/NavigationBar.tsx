@@ -12,7 +12,9 @@ const NavigationBar = () => {
           <Toolbar>
             <Grid className={classes.grow}>
               <Button className={classes.mainLogo}>
-                <Typography variant="h4">LUMIN</Typography>
+                <Typography variant="h4" className={classes.logoText}>
+                  LUMIN
+                </Typography>
               </Button>
               <Button color="inherit" className={classes.buttonFontSize}>
                 Shop
