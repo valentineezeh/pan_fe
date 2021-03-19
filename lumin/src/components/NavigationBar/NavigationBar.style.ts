@@ -9,22 +9,24 @@ export const NavigationStyle = makeStyles({
     backgroundSize: "cover",
   },
   container: {
-    width: 1170,
+    width: "100%",
     margin: "auto",
   },
   grow: {
     flexGrow: 1,
   },
   mainLogo: {
-    color: "#a1a1a1",
     justifyContent: "left",
     "&:hover": {
       background: "transparent",
     },
   },
+  logoText: {
+    fontFamily: "Oxygen",
+    letterSpacing: 20,
+  },
   buttonFontSize: {
-    fontSize: "11px",
-    color: "#a1a1a1",
+    fontSize: "14px",
     textTransform: "none",
   },
 });
