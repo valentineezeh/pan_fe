@@ -22,16 +22,9 @@ export const NavigationStyle = makeStyles({
       background: "transparent",
     },
   },
-  NavLeftItem: {
+  buttonFontSize: {
     fontSize: "11px",
     color: "#a1a1a1",
-    justifyContent: "left",
-    textTransform: "none",
-  },
-  NavRightItem: {
-    fontSize: "11px",
-    color: "#a1a1a1",
-    // justifyContent:"right",
     textTransform: "none",
   },
 });

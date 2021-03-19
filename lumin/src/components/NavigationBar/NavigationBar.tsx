@@ -14,17 +14,17 @@ const NavigationBar = () => {
               <Button className={classes.mainLogo}>
                 <Typography variant="h4">LUMIN</Typography>
               </Button>
-              <Button color="inherit" className={classes.NavLeftItem}>
+              <Button color="inherit" className={classes.buttonFontSize}>
                 Shop
               </Button>
-              <Button color="inherit" className={classes.NavLeftItem}>
+              <Button color="inherit" className={classes.buttonFontSize}>
                 Learn
               </Button>
             </Grid>
-            <Button color="inherit" className={classes.NavRightItem}>
+            <Button color="inherit" className={classes.buttonFontSize}>
               Account
             </Button>
-            <Button color="inherit" className={classes.NavRightItem}>
+            <Button color="inherit" className={classes.buttonFontSize}>
               <ShoppingCartIcon />
             </Button>
           </Toolbar>
