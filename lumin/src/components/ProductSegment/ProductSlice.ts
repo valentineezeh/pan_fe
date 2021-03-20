@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { baseUrl } from "./../../services/constant";
 
-interface ProductData {
+export interface ProductData {
   id: string;
   title: string;
   image_url: string;
@@ -15,7 +15,9 @@ interface ProductState {
   isLoading?: boolean;
 }
 
-const initialState: Partial<ProductState> = {};
+const initialState: ProductState = {
+  products: [],
+};
 
 const GET_PRODUCTS = `
   query {
@@ -54,7 +56,7 @@ const productSlice = createSlice({
     });
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.products = action.payload;
+      state.products = action.payload.products;
     });
   },
 });
