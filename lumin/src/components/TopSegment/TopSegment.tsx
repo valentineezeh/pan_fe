@@ -1,10 +1,4 @@
-import {
-  Grid,
-  Typography,
-  InputLabel,
-  FormControl,
-  Select,
-} from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import { TopSegmentStyle } from "./TopSegment.style";
 import { FilterInput } from "../Common/FilterInput";
 
