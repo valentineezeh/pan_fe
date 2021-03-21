@@ -21,11 +21,9 @@ const ProductSegment = () => {
   return (
     <div className={classes.root}>
       <Grid container>
-        {products === undefined
-          ? null
-          : products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+        {products?.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
       </Grid>
     </div>
   );

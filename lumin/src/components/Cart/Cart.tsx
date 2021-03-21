@@ -3,8 +3,13 @@ import { ReactComponent as ChevronLeft } from "../../assets/chevron-left.svg";
 import { CartStyle } from "./Cart.style";
 import { FilterInput } from "../Common/FilterInput";
 import { CartProductCard } from "./CartProductCard";
+import { ProductData } from "../ProductSegment/ProductSlice";
 
-export const Cart = () => {
+interface Props {
+  productData: Array<ProductData>;
+}
+
+export const Cart = ({ productData }: Props) => {
   const classes = CartStyle();
   return (
     <div className={classes.root}>
@@ -17,7 +22,9 @@ export const Cart = () => {
           <Typography className={classes.cartTitle}>YOUR CART</Typography>
         </Grid>
       </Grid>
-      <CartProductCard />
+      {productData?.map((prod, index) => (
+        <CartProductCard key={index} product={prod} />
+      ))}
     </div>
   );
 };

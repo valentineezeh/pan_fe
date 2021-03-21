@@ -1,19 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { CommonStyles } from "./styles";
 
-export const Counter = () => {
+interface Props {
+  productCount?: number;
+}
+
+export const Counter = ({ productCount }: Props) => {
   const classes = CommonStyles();
   const [count, setCount] = useState(0);
 
+  useEffect(() => {
+    setCount(productCount ?? 0);
+  }, [productCount]);
+
   // Create handleIncrement event handler
   const handleIncrement = () => {
-    setCount((prevCount) => prevCount + 1);
+    setCount(count + 1);
   };
 
   //Create handleDecrement event handler
   const handleDecrement = () => {
-    setCount((prevCount) => (count === 0 ? 0 : prevCount - 1));
+    setCount(count === 0 ? 0 : count - 1);
   };
 
   return (
