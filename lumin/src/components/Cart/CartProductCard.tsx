@@ -17,7 +17,6 @@ interface Props {
 
 export const CartProductCard = ({ product }: Props) => {
   const classes = CartStyle();
-  console.log("product :>> ", product);
   return (
     <Grid container>
       <Card className={classes.cardContainer}>
@@ -41,7 +40,10 @@ export const CartProductCard = ({ product }: Props) => {
         <CardContent>
           <Grid container className={classes.cardBottom}>
             <Grid item xs={6}>
-              <Counter productCount={product?.count} />
+              <Counter
+                productCount={product?.count}
+                productId={Number(product?.id)}
+              />
             </Grid>
             <Grid item xs={4}>
               {product?.price}

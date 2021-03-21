@@ -60,6 +60,28 @@ export const addProductToCart = createAsyncThunk(
   }
 );
 
+export const incrementProductCount = createAsyncThunk(
+  "products/incrementproduct",
+  async (productId: number) => {
+    try {
+      return productId;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+export const decrementProductCount = createAsyncThunk(
+  "products/decrementproduct",
+  async (productId: number) => {
+    try {
+      return productId;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "products",
   initialState: initialState as ProductState,
@@ -89,6 +111,32 @@ const productSlice = createSlice({
           });
         }
       }
+    });
+    builder.addCase(incrementProductCount.fulfilled, (state, action) => {
+      const newState = Object.assign([], state.selectedProducts);
+      const { payload } = action;
+      console.log(`payload`, payload);
+      newState.map((item: ProductData) => {
+        if (Number(item.id) === payload) {
+          item.count = item.count + 1;
+        }
+        return item;
+      });
+    });
+    builder.addCase(decrementProductCount.fulfilled, (state, action) => {
+      const newState = Object.assign([], state.selectedProducts);
+      const { payload } = action;
+      console.log(`payload`, payload);
+      newState.map((item: ProductData, index) => {
+        // if (Number(item.id) === payload && item.count === 0) {
+        //   console.log(' i enter here')
+        //   deleteItem = true;
+        // }
+        if (Number(item.id) === payload) {
+          item.count = item.count - 1;
+        }
+        return item;
+      });
     });
   },
 });

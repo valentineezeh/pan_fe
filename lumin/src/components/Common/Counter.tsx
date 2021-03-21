@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { CommonStyles } from "./styles";
+import {
+  incrementProductCount,
+  decrementProductCount,
+} from "../ProductSegment/ProductSlice";
 
 interface Props {
   productCount?: number;
+  productId?: number;
 }
 
-export const Counter = ({ productCount }: Props) => {
+export const Counter = ({ productCount, productId }: Props) => {
   const classes = CommonStyles();
   const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setCount(productCount ?? 0);
@@ -17,11 +24,13 @@ export const Counter = ({ productCount }: Props) => {
   // Create handleIncrement event handler
   const handleIncrement = () => {
     setCount(count + 1);
+    dispatch(incrementProductCount(productId ?? 0));
   };
 
   //Create handleDecrement event handler
   const handleDecrement = () => {
     setCount(count === 0 ? 0 : count - 1);
+    dispatch(decrementProductCount(productId ?? 0));
   };
 
   return (
