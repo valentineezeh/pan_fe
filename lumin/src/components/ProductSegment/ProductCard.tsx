@@ -1,22 +1,41 @@
 import React, { useState } from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ProductSegmentStyle } from "./ProductSegment.style";
 import { ProductData } from "./ProductSlice";
 import { SideBar } from "../SideBar/SideBar";
 import { Cart } from "../Cart/Cart";
+import { addProductToCart } from "../ProductSegment/ProductSlice";
+import { RootState } from "../../store/store";
 
 interface Props {
   product?: ProductData;
 }
 
+const productData: Array<ProductData> = [];
+
 export const ProductCard = ({ product }: Props) => {
   const classes = ProductSegmentStyle();
   const [showSideBar, setShowSideBar] = useState(false);
+  const dispatch = useDispatch();
 
   const onShowSideBar = () => {
     setShowSideBar(!showSideBar);
   };
+
+  const functionWrapper = (prod: any) => {
+    onShowSideBar();
+    if (!showSideBar) return onAddProdToCart(prod);
+  };
+
+  const onAddProdToCart = (prod: ProductData) => {
+    dispatch(addProductToCart(prod));
+  };
+
+  const { selectedProducts } = useSelector((state: RootState) => ({
+    selectedProducts: state.productReducer.selectedProducts ?? [],
+  }));
 
   return (
     <>
@@ -34,32 +53,29 @@ export const ProductCard = ({ product }: Props) => {
             <img
               className={classes.img}
               alt="complex"
-              src={product === undefined ? "" : product.image_url}
+              src={product?.image_url}
             />
           </Button>
         </Grid>
         <Grid item xs>
           <Typography className={classes.titleText}>
-            {product === undefined ? "" : product.title}
+            {product?.title}
           </Typography>
         </Grid>
         <Grid item xs>
-          <Typography variant="body1">
-            From ${product === undefined ? "" : product.price}
-          </Typography>
+          <Typography variant="body1">From ${product?.price}</Typography>
         </Grid>
         <Grid item xs>
           <Button
-            variant="contained"
             className={classes.cartButton}
-            onClick={onShowSideBar}
+            onClick={() => functionWrapper(product)}
           >
             Add to Cart
           </Button>
         </Grid>
       </Grid>
       <SideBar open={showSideBar} close={onShowSideBar}>
-        <Cart />
+        <Cart productData={selectedProducts} />
       </SideBar>
     </>
   );

@@ -8,15 +8,18 @@ export interface ProductData {
   title: string;
   image_url: string;
   price: number;
+  count: number;
 }
 
 interface ProductState {
   products?: Array<ProductData>;
   isLoading?: boolean;
+  selectedProducts?: Array<ProductData>;
 }
 
 const initialState: ProductState = {
   products: [],
+  selectedProducts: [],
 };
 
 const GET_PRODUCTS = `
@@ -46,6 +49,17 @@ export const fetchProducts = createAsyncThunk("products", async () => {
   }
 });
 
+export const addProductToCart = createAsyncThunk(
+  "products/selectedproducts",
+  async (prod: ProductData) => {
+    try {
+      return prod;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "products",
   initialState: initialState as ProductState,
@@ -57,6 +71,24 @@ const productSlice = createSlice({
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.products = action.payload.products;
+    });
+    builder.addCase(addProductToCart.fulfilled, (state, action) => {
+      const newState = Object.assign([], state.selectedProducts);
+      const { payload } = action;
+      if (newState?.length === 0) {
+        state.selectedProducts?.push({ ...payload, count: 1 });
+      } else {
+        if (!newState?.find(({ id }) => id === payload.id)) {
+          state.selectedProducts?.push({ ...payload, count: 1 });
+        } else {
+          newState.map((item: ProductData) => {
+            if (item.id === payload.id) {
+              item.count = item.count + 1;
+            }
+            return item;
+          });
+        }
+      }
     });
   },
 });
