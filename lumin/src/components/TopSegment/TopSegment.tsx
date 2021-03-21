@@ -6,6 +6,7 @@ import {
   Select,
 } from "@material-ui/core";
 import { TopSegmentStyle } from "./TopSegment.style";
+import { FilterInput } from "../Common/FilterInput";
 
 const TopSegment = () => {
   const classes = TopSegmentStyle();
@@ -36,12 +37,10 @@ const TopSegment = () => {
           justify="flex-end"
           className={classes.formContainer}
         >
-          <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel htmlFor="outlined-age-native-simple">
-              Filter by
-            </InputLabel>
-            <Select native></Select>
-          </FormControl>
+          <FilterInput
+            className={classes.formControl}
+            filterParams={"Filter by"}
+          />
         </Grid>
       </Grid>
     </div>
