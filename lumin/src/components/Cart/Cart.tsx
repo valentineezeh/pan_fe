@@ -1,9 +1,11 @@
 import { Button, Grid, Typography } from "@material-ui/core";
+import { useSelector } from "react-redux";
 import { ReactComponent as ChevronLeft } from "../../assets/chevron-left.svg";
 import { CartStyle } from "./Cart.style";
 import { FilterInput } from "../Common/FilterInput";
 import { CartProductCard } from "./CartProductCard";
 import { ProductData } from "../ProductSegment/ProductSlice";
+import { RootState } from "../../store/store";
 
 interface Props {
   productData: Array<ProductData>;
@@ -11,6 +13,11 @@ interface Props {
 
 export const Cart = ({ productData }: Props) => {
   const classes = CartStyle();
+
+  const { totalAmount } = useSelector((state: RootState) => ({
+    totalAmount: state.productReducer.totalAmount ?? [],
+  }));
+
   return (
     <div className={classes.root}>
       <Grid container>
@@ -31,7 +38,7 @@ export const Cart = ({ productData }: Props) => {
         <Grid container direction="row">
           <Grid xs={6}>Subtotal</Grid>
           <Grid item xs={6} className={classes.totalAmount}>
-            $61.00
+            {totalAmount}
           </Grid>
         </Grid>
         <Grid item xs container direction="column">

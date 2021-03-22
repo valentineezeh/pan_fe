@@ -13,8 +13,6 @@ interface Props {
   product?: ProductData;
 }
 
-const productData: Array<ProductData> = [];
-
 export const ProductCard = ({ product }: Props) => {
   const classes = ProductSegmentStyle();
   const [showSideBar, setShowSideBar] = useState(false);
