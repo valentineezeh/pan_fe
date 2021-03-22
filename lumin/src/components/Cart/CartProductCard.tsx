@@ -46,7 +46,7 @@ export const CartProductCard = ({ product }: Props) => {
               />
             </Grid>
             <Grid item xs={4}>
-              {product?.price}
+              {`$${product?.price}.00`}
             </Grid>
           </Grid>
         </CardContent>

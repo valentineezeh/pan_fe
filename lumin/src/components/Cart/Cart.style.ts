@@ -27,14 +27,39 @@ export const CartStyle = makeStyles((theme) => ({
     marginTop: theme.spacing(4),
   },
   cardContent: {
-    width: "30px",
-    height: "30px",
+    width: "40px",
+    height: "40px",
   },
   cardImg: {
     minWidth: "100%",
     minHeight: "100%",
+    paddingLeft: "380px",
   },
   cardBottom: {
     margin: theme.spacing("auto", 1),
+  },
+  cartBottom: {
+    marginTop: theme.spacing(20),
+  },
+  subscriptionButton: {
+    border: "0.5px solid black",
+    background: "#ffff !important",
+    color: "black",
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(2),
+    fontFamily: "roboto",
+    fontSize: 14,
+  },
+  checkoutButton: {
+    border: "none",
+    background: "#51594f !important",
+    color: "#ffff",
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(2),
+    fontFamily: "roboto",
+    fontSize: 14,
+  },
+  totalAmount: {
+    paddingLeft: "183px",
   },
 }));
