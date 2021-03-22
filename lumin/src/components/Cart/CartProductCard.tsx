@@ -43,6 +43,7 @@ export const CartProductCard = ({ product }: Props) => {
               <Counter
                 productCount={product?.count}
                 productId={Number(product?.id)}
+                productPrice={Number(product?.price)}
               />
             </Grid>
             <Grid item xs={4}>

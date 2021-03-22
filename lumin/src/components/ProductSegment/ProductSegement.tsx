@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
+import Loader from "react-loader-spinner";
 
 import { ProductSegmentStyle } from "./ProductSegment.style";
 import { fetchProducts } from "./ProductSlice";
@@ -16,11 +17,18 @@ const ProductSegment = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const { products } = useSelector((state: RootState) => state.productReducer);
+  const { products, isLoading } = useSelector(
+    (state: RootState) => state.productReducer
+  );
 
   return (
     <div className={classes.root}>
       <Grid container>
+        {isLoading && (
+          <Grid container justify="center">
+            <Loader type="Circles" color="#51594f" height={50} width={50} />
+          </Grid>
+        )}
         {products?.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
