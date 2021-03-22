@@ -39,7 +39,8 @@ export const ProductCard = ({ product }: Props) => {
     <>
       <Grid
         item
-        xs={4}
+        sm={4}
+        xs={6}
         container
         justify="center"
         alignItems="center"
