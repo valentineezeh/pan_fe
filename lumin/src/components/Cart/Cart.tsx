@@ -36,7 +36,9 @@ export const Cart = ({ productData }: Props) => {
       <Grid className={classes.cartBottom}>
         <hr />
         <Grid container direction="row">
-          <Grid xs={6}>Subtotal</Grid>
+          <Grid item xs={6}>
+            Subtotal
+          </Grid>
           <Grid item xs={6} className={classes.totalAmount}>
             {totalAmount}
           </Grid>

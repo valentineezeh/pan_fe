@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { InputLabel, FormControl, Select } from "@material-ui/core";
 import { CommonStyles } from "./styles";
@@ -42,10 +42,8 @@ export const FilterInput = ({ className, filterParams }: Props) => {
           id="demo-customized-select"
           onChange={handleChange}
           value={currency}
-          // inputProps={{
-          //   name: 'currency',
-          // }}
           onClick={onGetNewPrices}
+          defaultValue={"USD"}
         >
           {currencyList.map((item, index) => (
             <option value={item} key={index} className={classes.filterOption}>
