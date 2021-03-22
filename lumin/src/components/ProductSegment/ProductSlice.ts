@@ -20,11 +20,6 @@ interface ProductState {
   totalAmount?: number;
 }
 
-export interface DecrementData {
-  productId?: number;
-  productPrice?: number;
-}
-
 const initialState: ProductState = {
   products: [],
   selectedProducts: [],
@@ -53,7 +48,7 @@ const updatePricing = (firstArray: Array<ProductData>, secondArray: any) => {
 
 const getBasePrice = (data: any, prodId: number) => {
   const obj = data.find((prod: any) => prod.id === prodId);
-  return obj.price;
+  return obj;
 };
 
 export const fetchProducts = createAsyncThunk("products", async () => {
@@ -123,7 +118,6 @@ export const fetchProductByCurrency = createAsyncThunk(
         `,
         },
       });
-      // console.log('--->>> ', res.data.data)
       const { data } = res.data;
       return data;
     } catch (error) {
@@ -167,15 +161,15 @@ const productSlice = createSlice({
 
     builder.addCase(incrementProductCount.fulfilled, (state, action) => {
       const newState = Object.assign([], state.selectedProducts);
-
       const oldState = Object.assign([], state.products);
 
       const { payload } = action;
       const basePrice = getBasePrice(oldState, payload);
+
       newState.map((item: ProductData) => {
         if (Number(item.id) === payload) {
           item.count = item.count + 1;
-          item.price = item.price + basePrice;
+          item.price = item.price + basePrice.price;
         }
         return item;
       });
@@ -185,15 +179,22 @@ const productSlice = createSlice({
       const oldState = Object.assign([], state.products);
 
       const { payload } = action;
-      const basePrice = getBasePrice(oldState, payload);
+      const baseProduct = getBasePrice(oldState, payload);
 
       newState.map((item: ProductData) => {
         if (Number(item.id) === payload) {
           item.count = item.count - 1;
-          item.price = item.price - basePrice;
+          item.price = item.price - baseProduct.price;
         }
         return item;
       });
+
+      const baseCount = getBasePrice(newState, payload);
+      if (baseCount.count === 0) {
+        state.selectedProducts = newState?.filter(
+          (prod: any) => prod.id !== payload
+        );
+      }
     });
     builder.addCase(fetchProductByCurrency.pending, (state, action) => {
       state.totalAmount = 0;

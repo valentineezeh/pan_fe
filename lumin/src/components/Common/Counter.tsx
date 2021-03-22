@@ -13,7 +13,7 @@ interface Props {
   productPrice?: number;
 }
 
-export const Counter = ({ productCount, productId, productPrice }: Props) => {
+export const Counter = ({ productCount, productId }: Props) => {
   const classes = CommonStyles();
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
