@@ -166,12 +166,7 @@ const productSlice = createSlice({
     builder.addCase(decrementProductCount.fulfilled, (state, action) => {
       const newState = Object.assign([], state.selectedProducts);
       const { payload } = action;
-      console.log(`payload`, payload);
       newState.map((item: ProductData, index) => {
-        // if (Number(item.id) === payload && item.count === 0) {
-        //   console.log(' i enter here')
-        //   deleteItem = true;
-        // }
         if (Number(item.id) === payload) {
           item.count = item.count - 1;
         }
