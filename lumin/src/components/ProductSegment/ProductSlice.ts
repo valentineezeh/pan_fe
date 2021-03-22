@@ -11,15 +11,19 @@ export interface ProductData {
   count: number;
 }
 
+let totalAmount = 0;
+
 interface ProductState {
   products?: Array<ProductData>;
   isLoading?: boolean;
   selectedProducts?: Array<ProductData>;
+  totalAmount?: number;
 }
 
 const initialState: ProductState = {
   products: [],
   selectedProducts: [],
+  totalAmount: 0,
 };
 
 const GET_PRODUCTS = `
@@ -32,6 +36,16 @@ const GET_PRODUCTS = `
     }
   }
 `;
+
+const updatePricing = (firstArray: Array<ProductData>, secondArray: any) => {
+  const result = firstArray.map((o) => {
+    let obj = secondArray.find((e: any) => e.id === o.id);
+    totalAmount = totalAmount + obj?.price;
+    return Object.assign({}, o, obj && { price: obj.price });
+  });
+  console.log(`totalAmount`, totalAmount);
+  return result;
+};
 
 export const fetchProducts = createAsyncThunk("products", async () => {
   try {
@@ -82,6 +96,33 @@ export const decrementProductCount = createAsyncThunk(
   }
 );
 
+export const fetchProductByCurrency = createAsyncThunk(
+  "products/currency",
+  async (currency: string) => {
+    try {
+      const res = await axios({
+        url: `${baseUrl}/api/graphql`,
+        method: "post",
+        data: {
+          query: `
+          query {
+            products {
+              id
+              price(currency: ${currency})
+            }
+          }
+        `,
+        },
+      });
+      // console.log('--->>> ', res.data.data)
+      const { data } = res.data;
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "products",
   initialState: initialState as ProductState,
@@ -115,7 +156,6 @@ const productSlice = createSlice({
     builder.addCase(incrementProductCount.fulfilled, (state, action) => {
       const newState = Object.assign([], state.selectedProducts);
       const { payload } = action;
-      console.log(`payload`, payload);
       newState.map((item: ProductData) => {
         if (Number(item.id) === payload) {
           item.count = item.count + 1;
@@ -137,6 +177,16 @@ const productSlice = createSlice({
         }
         return item;
       });
+    });
+    builder.addCase(fetchProductByCurrency.pending, (state, action) => {
+      state.totalAmount = 0;
+      totalAmount = 0;
+    });
+    builder.addCase(fetchProductByCurrency.fulfilled, (state, action) => {
+      const newState = Object.assign([], state.selectedProducts);
+      const { products } = action.payload;
+      state.selectedProducts = updatePricing(newState, products);
+      state.totalAmount = totalAmount;
     });
   },
 });

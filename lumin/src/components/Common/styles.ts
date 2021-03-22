@@ -10,4 +10,8 @@ export const CommonStyles = makeStyles((theme) => ({
   counterAction: {
     cursor: "pointer",
   },
+  filterOption: {
+    margin: theme.spacing(2, 4),
+    cursor: "pointer",
+  },
 }));
