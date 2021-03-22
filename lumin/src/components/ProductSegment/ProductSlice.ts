@@ -20,6 +20,11 @@ interface ProductState {
   totalAmount?: number;
 }
 
+export interface DecrementData {
+  productId?: number;
+  productPrice?: number;
+}
+
 const initialState: ProductState = {
   products: [],
   selectedProducts: [],
@@ -41,10 +46,14 @@ const updatePricing = (firstArray: Array<ProductData>, secondArray: any) => {
   const result = firstArray.map((o) => {
     let obj = secondArray.find((e: any) => e.id === o.id);
     totalAmount = totalAmount + obj?.price;
-    return Object.assign({}, o, obj && { price: obj.price });
+    return Object.assign({}, o, obj && { price: obj.price, count: 1 });
   });
-  console.log(`totalAmount`, totalAmount);
   return result;
+};
+
+const getBasePrice = (data: any, prodId: number) => {
+  const obj = data.find((prod: any) => prod.id === prodId);
+  return obj.price;
 };
 
 export const fetchProducts = createAsyncThunk("products", async () => {
@@ -131,10 +140,12 @@ const productSlice = createSlice({
     builder.addCase(fetchProducts.pending, (state, action) => {
       state.isLoading = true;
     });
+
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.products = action.payload.products;
     });
+
     builder.addCase(addProductToCart.fulfilled, (state, action) => {
       const newState = Object.assign([], state.selectedProducts);
       const { payload } = action;
@@ -153,22 +164,33 @@ const productSlice = createSlice({
         }
       }
     });
+
     builder.addCase(incrementProductCount.fulfilled, (state, action) => {
       const newState = Object.assign([], state.selectedProducts);
+
+      const oldState = Object.assign([], state.products);
+
       const { payload } = action;
+      const basePrice = getBasePrice(oldState, payload);
       newState.map((item: ProductData) => {
         if (Number(item.id) === payload) {
           item.count = item.count + 1;
+          item.price = item.price + basePrice;
         }
         return item;
       });
     });
     builder.addCase(decrementProductCount.fulfilled, (state, action) => {
       const newState = Object.assign([], state.selectedProducts);
+      const oldState = Object.assign([], state.products);
+
       const { payload } = action;
-      newState.map((item: ProductData, index) => {
+      const basePrice = getBasePrice(oldState, payload);
+
+      newState.map((item: ProductData) => {
         if (Number(item.id) === payload) {
           item.count = item.count - 1;
+          item.price = item.price - basePrice;
         }
         return item;
       });

@@ -10,9 +10,10 @@ import {
 interface Props {
   productCount?: number;
   productId?: number;
+  productPrice?: number;
 }
 
-export const Counter = ({ productCount, productId }: Props) => {
+export const Counter = ({ productCount, productId, productPrice }: Props) => {
   const classes = CommonStyles();
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
