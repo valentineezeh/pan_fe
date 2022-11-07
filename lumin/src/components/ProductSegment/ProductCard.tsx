@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -53,6 +53,7 @@ export const ProductCard = ({ product }: Props) => {
               className={classes.img}
               alt="complex"
               src={product?.image_url}
+              style={{ height: "100px" }}
             />
           </Button>
         </Grid>
@@ -74,7 +75,7 @@ export const ProductCard = ({ product }: Props) => {
         </Grid>
       </Grid>
       <SideBar open={showSideBar} close={onShowSideBar}>
-        <Cart productData={selectedProducts} />
+        <Cart productData={selectedProducts} setShowSideBar={setShowSideBar} />
       </SideBar>
     </>
   );

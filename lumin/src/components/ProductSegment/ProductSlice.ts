@@ -78,6 +78,17 @@ export const addProductToCart = createAsyncThunk(
   }
 );
 
+export const removeProductFromCart = createAsyncThunk(
+  "products/removeproducts",
+  async (prod: ProductData) => {
+    try {
+      return prod;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 export const incrementProductCount = createAsyncThunk(
   "products/incrementproduct",
   async (productId: number) => {
@@ -143,6 +154,7 @@ const productSlice = createSlice({
     builder.addCase(addProductToCart.fulfilled, (state, action) => {
       const newState = Object.assign([], state.selectedProducts);
       const { payload } = action;
+
       if (newState?.length === 0) {
         state.selectedProducts?.push({ ...payload, count: 1 });
       } else {
@@ -157,6 +169,16 @@ const productSlice = createSlice({
           });
         }
       }
+    });
+
+    builder.addCase(removeProductFromCart.fulfilled, (state, action) => {
+      const newState = Object.assign([], state.selectedProducts);
+      const { payload } = action;
+
+      const filterProduct = newState.filter(
+        (i: { id: string }) => Number(i.id) !== Number(payload.id)
+      );
+      state.selectedProducts = filterProduct;
     });
 
     builder.addCase(incrementProductCount.fulfilled, (state, action) => {

@@ -9,7 +9,11 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import { CartStyle } from "./Cart.style";
 import { Counter } from "../Common/Counter";
-import { ProductData } from "../ProductSegment/ProductSlice";
+import {
+  ProductData,
+  removeProductFromCart,
+} from "../ProductSegment/ProductSlice";
+import { useDispatch } from "react-redux";
 
 interface Props {
   product?: ProductData;
@@ -17,13 +21,19 @@ interface Props {
 
 export const CartProductCard = ({ product }: Props) => {
   const classes = CartStyle();
+  const dispatch = useDispatch();
+
+  const onRemoveProdFromCart = (prod: ProductData) => {
+    dispatch(removeProductFromCart(prod));
+  };
+
   return (
     <Grid container>
       <Card className={classes.cardContainer}>
         <CardHeader
           title={<Typography variant="body2">{product?.title}</Typography>}
           action={
-            <IconButton>
+            <IconButton onClick={() => onRemoveProdFromCart(product!)}>
               <CloseIcon />
             </IconButton>
           }
