@@ -26,7 +26,7 @@ const ProductSegment = () => {
       <Grid container>
         {isLoading && (
           <Grid container justify="center">
-            <Loader type="Circles" color="#51594f" height={50} width={50} />
+            <Loader type="Circles" color="#51594f" height={800} />
           </Grid>
         )}
         {products?.map((product) => (

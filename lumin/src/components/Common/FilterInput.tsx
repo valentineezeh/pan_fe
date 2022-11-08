@@ -43,7 +43,6 @@ export const FilterInput = ({ className, filterParams }: Props) => {
           onChange={handleChange}
           value={currency}
           onClick={onGetNewPrices}
-          defaultValue={"USD"}
         >
           {currencyList.map((item, index) => (
             <option value={item} key={index} className={classes.filterOption}>
