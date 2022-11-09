@@ -9,10 +9,17 @@ import { RootState } from "../../store/store";
 
 interface Props {
   productData: Array<ProductData>;
-  setShowSideBar: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowSideBar: (value: boolean) => void;
+  setCurrency: (value: string) => void;
+  currency: string;
 }
 
-export const Cart = ({ productData, setShowSideBar }: Props) => {
+export const Cart = ({
+  productData,
+  setShowSideBar,
+  setCurrency,
+  currency,
+}: Props) => {
   const classes = CartStyle();
 
   const { totalAmount } = useSelector((state: RootState) => ({
@@ -27,7 +34,12 @@ export const Cart = ({ productData, setShowSideBar }: Props) => {
             className={classes.icon}
             onClick={() => setShowSideBar(false)}
           />
-          <FilterInput className={classes.formControl} filterParams={"USD"} />
+          <FilterInput
+            className={classes.formControl}
+            filterParams="USD"
+            setCurrency={setCurrency}
+            currency={currency}
+          />
         </Grid>
         <Grid item xs>
           <Typography className={classes.cartTitle}>YOUR CART</Typography>

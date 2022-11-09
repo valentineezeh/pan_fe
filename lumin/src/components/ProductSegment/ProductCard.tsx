@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,23 +8,21 @@ import { SideBar } from "../SideBar/SideBar";
 import { Cart } from "../Cart/Cart";
 import { addProductToCart } from "../ProductSegment/ProductSlice";
 import { RootState } from "../../store/store";
+import { currencyList } from "./utils";
 
 interface Props {
   product?: ProductData;
+  setCurrency: Dispatch<SetStateAction<string>>;
+  currency: string;
 }
 
-export const ProductCard = ({ product }: Props) => {
+export const ProductCard = ({ product, currency, setCurrency }: Props) => {
   const classes = ProductSegmentStyle();
   const [showSideBar, setShowSideBar] = useState(false);
   const dispatch = useDispatch();
 
   const onShowSideBar = () => {
     setShowSideBar(!showSideBar);
-  };
-
-  const functionWrapper = (prod: any) => {
-    onShowSideBar();
-    if (!showSideBar) return onAddProdToCart(prod);
   };
 
   const onAddProdToCart = (prod: ProductData) => {
@@ -34,6 +32,16 @@ export const ProductCard = ({ product }: Props) => {
   const { selectedProducts } = useSelector((state: RootState) => ({
     selectedProducts: state.productReducer.selectedProducts ?? [],
   }));
+
+  const functionWrapper = (prod: any) => {
+    onShowSideBar();
+    if (!showSideBar) {
+      onAddProdToCart(prod);
+    }
+  };
+
+  const currencySymbol =
+    currencyList.find((i) => i.currency === currency)?.symbol ?? "";
 
   return (
     <>
@@ -63,7 +71,10 @@ export const ProductCard = ({ product }: Props) => {
           </Typography>
         </Grid>
         <Grid item xs>
-          <Typography variant="body1">From ${product?.price}</Typography>
+          <Typography variant="body1">
+            From {currencySymbol}
+            {product?.price}
+          </Typography>
         </Grid>
         <Grid item xs>
           <Button
@@ -75,7 +86,12 @@ export const ProductCard = ({ product }: Props) => {
         </Grid>
       </Grid>
       <SideBar open={showSideBar} close={onShowSideBar}>
-        <Cart productData={selectedProducts} setShowSideBar={setShowSideBar} />
+        <Cart
+          productData={selectedProducts}
+          setShowSideBar={setShowSideBar}
+          setCurrency={setCurrency}
+          currency={currency}
+        />
       </SideBar>
     </>
   );

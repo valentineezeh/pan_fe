@@ -9,6 +9,8 @@ export interface ProductData {
   image_url: string;
   price: number;
   count: number;
+  totalPrice: number;
+  unitPrice: number;
 }
 
 let totalAmount = 0;
@@ -41,7 +43,15 @@ const updatePricing = (firstArray: Array<ProductData>, secondArray: any) => {
   const result = firstArray.map((o) => {
     let obj = secondArray.find((e: any) => e.id === o.id);
     totalAmount = totalAmount + obj?.price;
-    return Object.assign({}, o, obj && { price: obj.price, count: 1 });
+    return Object.assign(
+      {},
+      o,
+      obj && {
+        price: obj.price * o.count,
+        unitPrice: obj.price,
+        totalPrice: obj.price * o.count,
+      }
+    );
   });
   return result;
 };
@@ -51,21 +61,33 @@ const getBasePrice = (data: any, prodId: number) => {
   return obj;
 };
 
-export const fetchProducts = createAsyncThunk("products", async () => {
-  try {
-    const res = await axios({
-      url: `${baseUrl}/api/graphql`,
-      method: "post",
-      data: {
-        query: GET_PRODUCTS,
-      },
-    });
-    const { data } = res.data;
-    return data;
-  } catch (error) {
-    throw error;
+export const fetchProducts = createAsyncThunk(
+  "products",
+  async (currency: string) => {
+    try {
+      const res = await axios({
+        url: `${baseUrl}/api/graphql`,
+        method: "post",
+        data: {
+          query: `
+        query {
+          products {
+            id
+            title
+            image_url
+            price(currency: ${currency})
+          }
+        }
+        `,
+        },
+      });
+      const { data } = res.data;
+      return data;
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
 
 export const addProductToCart = createAsyncThunk(
   "products/selectedproducts",
@@ -111,37 +133,11 @@ export const decrementProductCount = createAsyncThunk(
   }
 );
 
-export const fetchProductByCurrency = createAsyncThunk(
-  "products/currency",
-  async (currency: string) => {
-    try {
-      const res = await axios({
-        url: `${baseUrl}/api/graphql`,
-        method: "post",
-        data: {
-          query: `
-          query {
-            products {
-              id
-              price(currency: ${currency})
-            }
-          }
-        `,
-        },
-      });
-      const { data } = res.data;
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  }
-);
-
 export const totalProductPrice = (arr: ProductData[]) => {
   let sum = 0;
 
   arr.forEach((prod) => {
-    sum = sum + prod.price;
+    sum = sum + prod.totalPrice;
   });
   return sum;
 };
@@ -151,13 +147,20 @@ const productSlice = createSlice({
   initialState: initialState as ProductState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchProducts.pending, (state, action) => {
+    builder.addCase(fetchProducts.pending, (state) => {
       state.isLoading = true;
     });
 
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.products = action.payload.products;
+      const newState = Object.assign([], state.selectedProducts);
+
+      const { products } = action.payload;
+      const updatePricingArr = updatePricing(newState, products);
+
+      state.products = products;
+      state.selectedProducts = updatePricingArr;
+      state.totalAmount = totalProductPrice(updatePricingArr);
     });
 
     builder.addCase(addProductToCart.fulfilled, (state, action) => {
@@ -165,12 +168,18 @@ const productSlice = createSlice({
       const { payload } = action;
 
       if (!newState?.find(({ id }) => id === payload.id)) {
-        newState?.push({ ...payload, count: 1 });
+        newState?.push({
+          ...payload,
+          count: 1,
+          totalPrice: payload.price,
+          unitPrice: payload.price,
+        });
       } else {
         newState.map((item) => {
           if (item.id === payload.id) {
             item.count = item.count + 1;
             item.price = item.price * item.count;
+            item.totalPrice = item.unitPrice * item.count;
           }
           return item;
         });
@@ -193,15 +202,14 @@ const productSlice = createSlice({
 
     builder.addCase(incrementProductCount.fulfilled, (state, action) => {
       const newState = Object.assign([], state.selectedProducts);
-      const oldState = Object.assign([], state.products);
 
       const { payload } = action;
-      const basePrice = getBasePrice(oldState, payload);
 
       newState.map((item: ProductData) => {
         if (Number(item.id) === payload) {
           item.count = item.count + 1;
-          item.price = item.price + basePrice.price;
+          item.price = item.unitPrice * item.count;
+          item.totalPrice = item.unitPrice * item.count;
         }
         return item;
       });
@@ -209,15 +217,14 @@ const productSlice = createSlice({
     });
     builder.addCase(decrementProductCount.fulfilled, (state, action) => {
       const newState = Object.assign([], state.selectedProducts);
-      const oldState = Object.assign([], state.products);
 
       const { payload } = action;
-      const baseProduct = getBasePrice(oldState, payload);
 
       newState.map((item: ProductData) => {
         if (Number(item.id) === payload) {
           item.count = item.count - 1;
-          item.price = item.price - baseProduct.price;
+          item.price = item.price - item.unitPrice;
+          item.totalPrice = item.totalPrice - item.unitPrice;
         }
         return item;
       });
@@ -229,16 +236,6 @@ const productSlice = createSlice({
         );
       }
       state.totalAmount = totalProductPrice(newState);
-    });
-    builder.addCase(fetchProductByCurrency.pending, (state, action) => {
-      state.totalAmount = 0;
-      totalAmount = 0;
-    });
-    builder.addCase(fetchProductByCurrency.fulfilled, (state, action) => {
-      const newState = Object.assign([], state.selectedProducts);
-      const { products } = action.payload;
-      state.selectedProducts = updatePricing(newState, products);
-      state.totalAmount = totalAmount;
     });
   },
 });

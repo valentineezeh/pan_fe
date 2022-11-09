@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import Loader from "react-loader-spinner";
@@ -10,12 +10,13 @@ import { RootState } from "../../store/store";
 
 const ProductSegment = () => {
   const classes = ProductSegmentStyle();
+  const [currency, setCurrency] = useState("USD");
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    dispatch(fetchProducts(currency));
+  }, [dispatch, currency]);
 
   const { products, isLoading } = useSelector(
     (state: RootState) => state.productReducer
@@ -30,7 +31,12 @@ const ProductSegment = () => {
           </Grid>
         )}
         {products?.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard
+            key={product.id}
+            product={product}
+            setCurrency={setCurrency}
+            currency={currency}
+          />
         ))}
       </Grid>
     </div>
