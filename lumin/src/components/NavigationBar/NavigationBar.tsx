@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Grid, Button, AppBar, Toolbar, Typography } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useSelector } from "react-redux";
@@ -21,11 +22,13 @@ const NavigationBar = ({ onShowSideBar }: { onShowSideBar: () => void }) => {
         <Grid item sm={12} xs={12} className={classes.container}>
           <Toolbar>
             <Grid className={classes.grow}>
-              <Button className={classes.mainLogo}>
-                <Typography variant="h4" className={classes.logoText}>
-                  Maoluxury
-                </Typography>
-              </Button>
+              <Link to="/" style={{ textDecoration: "none" }}>
+                <Button className={classes.mainLogo}>
+                  <Typography variant="h4" className={classes.logoText}>
+                    Maoluxury
+                  </Typography>
+                </Button>
+              </Link>
               <Button color="inherit" className={classes.buttonFontSize}>
                 Shop
               </Button>

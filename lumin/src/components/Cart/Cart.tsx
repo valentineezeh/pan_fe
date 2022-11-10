@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { ReactComponent as ChevronLeft } from "../../assets/chevron-left.svg";
@@ -63,9 +64,11 @@ export const Cart = ({
           <Button variant="contained" className={classes.subscriptionButton}>
             Make this a subscription (save 20%)
           </Button>
-          <Button variant="contained" className={classes.checkoutButton}>
-            proceed to checkout
-          </Button>
+          <Link to="/checkout" style={{ textDecoration: "none" }}>
+            <Button variant="contained" className={classes.checkoutButton}>
+              proceed to checkout
+            </Button>
+          </Link>
         </Grid>
       </Grid>
     </div>

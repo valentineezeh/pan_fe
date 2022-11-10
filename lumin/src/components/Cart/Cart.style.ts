@@ -59,6 +59,7 @@ export const CartStyle = makeStyles((theme) => ({
     padding: theme.spacing(2),
     fontFamily: "roboto",
     fontSize: 14,
+    width: 510,
   },
   totalAmount: {
     paddingLeft: "183px",
