@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-import NavigationBar from "../NavigationBar/NavigationBar";
-import ProductSegment from "../ProductSegment/ProductSegement";
-import { SideBar } from "../SideBar/SideBar";
-import { Cart } from "../Cart/Cart";
+import NavigationBar from "../../components/NavigationBar/NavigationBar";
+import ProductSegment from "../../components/ProductSegment/ProductSegement";
+import { SideBar } from "../../components/SideBar/SideBar";
+import { Cart } from "../../components/Cart/Cart";
 import { RootState } from "../../store/store";
 
 const LandingPage = () => {
