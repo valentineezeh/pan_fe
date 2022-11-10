@@ -1,37 +1,31 @@
-import { useState, Dispatch, SetStateAction } from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { ProductSegmentStyle } from "./ProductSegment.style";
 import { ProductData } from "./ProductSlice";
-import { SideBar } from "../SideBar/SideBar";
-import { Cart } from "../Cart/Cart";
 import { addProductToCart } from "../ProductSegment/ProductSlice";
-import { RootState } from "../../store/store";
 import { currencyList } from "./utils";
 
 interface Props {
   product?: ProductData;
-  setCurrency: Dispatch<SetStateAction<string>>;
+  setCurrency: (value: string) => void;
   currency: string;
+  showSideBar: boolean;
+  onShowSideBar: () => void;
 }
 
-export const ProductCard = ({ product, currency, setCurrency }: Props) => {
+export const ProductCard = ({
+  product,
+  currency,
+  onShowSideBar,
+  showSideBar,
+}: Props) => {
   const classes = ProductSegmentStyle();
-  const [showSideBar, setShowSideBar] = useState(false);
   const dispatch = useDispatch();
-
-  const onShowSideBar = () => {
-    setShowSideBar(!showSideBar);
-  };
 
   const onAddProdToCart = (prod: ProductData) => {
     dispatch(addProductToCart(prod));
   };
-
-  const { selectedProducts } = useSelector((state: RootState) => ({
-    selectedProducts: state.productReducer.selectedProducts ?? [],
-  }));
 
   const functionWrapper = (prod: any) => {
     onShowSideBar();
@@ -85,14 +79,6 @@ export const ProductCard = ({ product, currency, setCurrency }: Props) => {
           </Button>
         </Grid>
       </Grid>
-      <SideBar open={showSideBar} close={onShowSideBar}>
-        <Cart
-          productData={selectedProducts}
-          setShowSideBar={setShowSideBar}
-          setCurrency={setCurrency}
-          currency={currency}
-        />
-      </SideBar>
     </>
   );
 };

@@ -1,9 +1,19 @@
 import { Grid, Button, AppBar, Toolbar, Typography } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { NavigationStyle } from "./NavigationBar.style";
+import { useSelector } from "react-redux";
 
-const NavigationBar = () => {
+import { NavigationStyle } from "./NavigationBar.style";
+import { totalProductPrice } from "../ProductSegment/ProductSlice";
+import { RootState } from "../../store/store";
+
+const NavigationBar = ({ onShowSideBar }: { onShowSideBar: () => void }) => {
   const classes = NavigationStyle();
+
+  const { selectedProducts } = useSelector((state: RootState) => ({
+    selectedProducts: state.productReducer.selectedProducts ?? [],
+  }));
+
+  const cartCount = totalProductPrice(selectedProducts).qty;
 
   return (
     <div className={classes.root}>
@@ -13,7 +23,7 @@ const NavigationBar = () => {
             <Grid className={classes.grow}>
               <Button className={classes.mainLogo}>
                 <Typography variant="h4" className={classes.logoText}>
-                  LUMIN
+                  Maoluxury
                 </Typography>
               </Button>
               <Button color="inherit" className={classes.buttonFontSize}>
@@ -26,7 +36,12 @@ const NavigationBar = () => {
             <Button color="inherit" className={classes.buttonFontSize}>
               Account
             </Button>
-            <Button color="inherit" className={classes.buttonFontSize}>
+            <Button
+              color="inherit"
+              className={classes.buttonFontSize}
+              onClick={onShowSideBar}
+            >
+              <span className={classes.cartTotal}>{cartCount}</span>
               <ShoppingCartIcon />
             </Button>
           </Toolbar>

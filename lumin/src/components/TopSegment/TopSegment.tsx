@@ -19,7 +19,7 @@ const TopSegment = () => {
               color="textPrimary"
               className={classes.formContainer}
             >
-              A 360 look at Lumin
+              A 360 look at Maoluxury
             </Typography>
           </Grid>
         </Grid>

@@ -23,7 +23,7 @@ export const Cart = ({
   const classes = CartStyle();
 
   const { totalAmount } = useSelector((state: RootState) => ({
-    totalAmount: state.productReducer.totalAmount ?? [],
+    totalAmount: state.productReducer.totalAmount ?? 0,
   }));
 
   return (

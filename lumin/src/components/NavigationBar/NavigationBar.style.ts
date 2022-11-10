@@ -29,4 +29,12 @@ export const NavigationStyle = makeStyles({
     fontSize: "14px",
     textTransform: "none",
   },
+  cartTotal: {
+    height: "10px",
+    width: "10px",
+    borderRadius: "100px",
+    position: "absolute",
+    top: "0px",
+    left: "42px",
+  },
 });
