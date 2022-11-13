@@ -2,7 +2,8 @@ import { makeStyles } from "@material-ui/core";
 
 export const CheckoutStyle = makeStyles(() => ({
   root: {
-    flexGrow: 1,
+    // flexGrow: 1,
+    margin: "40px 0px 40px 0px",
   },
   paper: {
     display: "flex",
@@ -25,9 +26,9 @@ export const CheckoutStyle = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     height: 150,
-    width: "85%",
+    width: "80%",
     margin: "auto",
-    padding: "20px",
+    padding: "0px 40px 0px 40px",
   },
   icon: {
     height: 50,
