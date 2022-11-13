@@ -1,18 +1,26 @@
 import { makeStyles } from "@material-ui/core";
 
-export const CheckoutStyle = makeStyles(() => ({
+export const CheckoutStyle = makeStyles((theme) => ({
   root: {
-    // flexGrow: 1,
+    flexGrow: 1,
     margin: "40px 0px 40px 0px",
   },
   paper: {
     display: "flex",
     flexDirection: "column",
-    height: "700px",
+    height: "100%",
     width: "80%",
     backgroundColor: "white",
     margin: "auto",
-    padding: "40px 40px 0px 40px",
+    padding: "40px 40px 40px 40px",
+  },
+  checkoutFormCont: {
+    display: "flex",
+    flexDirection: "column",
+    height: "700px",
+    width: "60%",
+    margin: "auto",
+    padding: "20px 40px 20px 40px",
   },
   hr: {
     display: "block",
@@ -26,7 +34,7 @@ export const CheckoutStyle = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     height: 150,
-    width: "80%",
+    width: "60%",
     margin: "auto",
     padding: "0px 40px 0px 40px",
   },
@@ -57,5 +65,25 @@ export const CheckoutStyle = makeStyles(() => ({
     borderRadius: "100%",
     backgroundColor: "#575f63",
     color: "#fff",
+  },
+  checkbox: {
+    display: "flex",
+    marginTop: 20,
+    flexDirection: "row",
+  },
+  input: {
+    backgroundColor: "white",
+    marginTop: 20,
+  },
+  saveShipmentBtn: {
+    border: "none",
+    background: "#51594f !important",
+    color: "#ffff",
+    marginTop: theme.spacing(4),
+    // marginLeft: theme.spacing(6),
+    padding: theme.spacing(2),
+    fontFamily: "roboto",
+    fontSize: 14,
+    width: "100%",
   },
 }));

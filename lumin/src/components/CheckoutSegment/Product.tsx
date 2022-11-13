@@ -87,7 +87,7 @@ export const CheckoutProduct = ({
           </Grid>
         </Grid>
       </Paper>
-      <div style={{ marginTop: "30px" }}>
+      {/* <div style={{ marginTop: "30px" }}>
         <Paper className={classes.paymentMethod}>
           <h3>Accepted Payment Methods</h3>
           <Grid container item xs direction="row">
@@ -98,7 +98,7 @@ export const CheckoutProduct = ({
             <VisaCardLogo className={classes.icon} />
           </Grid>
         </Paper>
-      </div>
+      </div> */}
     </Grid>
   );
 };

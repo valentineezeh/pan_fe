@@ -8,6 +8,7 @@ import { CheckoutStyle } from "../../components/CheckoutSegment/Checkout.style";
 import { CheckoutProduct } from "../../components/CheckoutSegment/Product";
 import { SideBar } from "../../components/SideBar/SideBar";
 import { Cart } from "../../components/Cart/Cart";
+import { CheckoutForm } from "../../components/CheckoutSegment/CheckoutForm";
 
 const CheckoutPage = () => {
   const classes = CheckoutStyle();
@@ -32,7 +33,7 @@ const CheckoutPage = () => {
       <div className={classes.root}>
         <Grid container spacing={8} style={{ marginTop: "50px" }}>
           <Grid item xs={6}>
-            Left side
+            <CheckoutForm />
           </Grid>
           <CheckoutProduct
             selectedProducts={selectedProducts}
