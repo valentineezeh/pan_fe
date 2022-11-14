@@ -40,7 +40,7 @@ export const ProductCard = ({
           </Grid>
         </Grid>
         <Grid item>
-          <Typography variant="subtitle1" style={{ paddingTop: "30px" }}>
+          <Typography variant="subtitle1">
             {currencySymbol}
             {prod.price}
           </Typography>

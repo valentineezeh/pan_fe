@@ -1,10 +1,5 @@
 import { Grid, Paper, Typography } from "@material-ui/core";
 import { ProductCard } from "../../components/CheckoutSegment/Checkout";
-import { ReactComponent as PayPalLogo } from "../../assets/paypal-logo-svgrepo-com.svg";
-import { ReactComponent as MasterCardLogo } from "../../assets/mastercard-svgrepo-com.svg";
-import { ReactComponent as AppleCardLogo } from "../../assets/applepay-svgrepo-com.svg";
-import { ReactComponent as GoogleCardLogo } from "../../assets/googlepay-svgrepo-com.svg";
-import { ReactComponent as VisaCardLogo } from "../../assets/visa-svgrepo-com.svg";
 import { CheckoutStyle } from "../../components/CheckoutSegment/Checkout.style";
 import { ProductData } from "../ProductSegment/ProductSlice";
 import { currencyList } from "../ProductSegment/utils";
@@ -87,18 +82,6 @@ export const CheckoutProduct = ({
           </Grid>
         </Grid>
       </Paper>
-      {/* <div style={{ marginTop: "30px" }}>
-        <Paper className={classes.paymentMethod}>
-          <h3>Accepted Payment Methods</h3>
-          <Grid container item xs direction="row">
-            <PayPalLogo className={classes.icon} />
-            <MasterCardLogo className={classes.icon} />
-            <AppleCardLogo className={classes.icon} />
-            <GoogleCardLogo className={classes.icon} />
-            <VisaCardLogo className={classes.icon} />
-          </Grid>
-        </Paper>
-      </div> */}
     </Grid>
   );
 };
