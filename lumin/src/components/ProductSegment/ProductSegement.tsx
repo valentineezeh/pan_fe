@@ -14,39 +14,50 @@ const ProductSegment = ({
   showSideBar,
   setCurrency,
   currency,
+  searchValue,
+  setSearchValue,
 }: {
   showSideBar: boolean;
   onShowSideBar: () => void;
   setCurrency: (value: string) => void;
   currency: string;
+  setSearchValue: (value: string) => void;
+  searchValue: string;
 }) => {
   const classes = ProductSegmentStyle();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchProducts({ currency }));
+    dispatch(fetchProducts(currency));
   }, [dispatch, currency]);
 
   const { products, isLoading } = useSelector(
     (state: RootState) => state.productReducer
   );
 
+  const formatSearchValue =
+    searchValue && searchValue?.[0].toUpperCase() + searchValue.slice(1);
+
+  const displayProducts = products?.filter((i: any) => {
+    return i.title.indexOf(formatSearchValue) !== -1;
+  });
+
   return (
     <>
-      <TopSegment />
+      <TopSegment setSearchValue={setSearchValue} searchValue={searchValue} />
       <div className={classes.root}>
         <Grid container>
           {isLoading ? (
             <Grid container justify="center">
               <Loader type="Circles" color="#51594f" height={800} />
             </Grid>
-          ) : products?.length === 0 ? (
+          ) : displayProducts?.length === 0 ? (
             <Grid container justify="center">
               <h1>Product not found</h1>
             </Grid>
           ) : (
-            products?.map((product) => (
+            displayProducts?.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}

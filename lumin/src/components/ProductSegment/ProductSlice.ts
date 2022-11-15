@@ -56,13 +56,7 @@ const getBasePrice = (data: any, prodId: number) => {
 
 export const fetchProducts = createAsyncThunk(
   "products",
-  async ({
-    currency,
-    searchValue,
-  }: {
-    currency: string;
-    searchValue?: string;
-  }) => {
+  async (currency: string) => {
     try {
       const res = await axios({
         url: `${baseUrl}/api/graphql`,
@@ -81,10 +75,7 @@ export const fetchProducts = createAsyncThunk(
         },
       });
       const { data } = res.data;
-      return {
-        data,
-        searchValue,
-      };
+      return data;
     } catch (error) {
       throw error;
     }
@@ -162,18 +153,10 @@ const productSlice = createSlice({
       state.isLoading = false;
       const newState = Object.assign([], state.selectedProducts);
 
-      const { products } = action.payload.data;
-      const searchValue = action.payload.searchValue;
+      const { products } = action.payload;
       const updatePricingArr = updatePricing(newState, products);
 
-      const formatSearchValue =
-        searchValue && searchValue?.[0].toUpperCase() + searchValue.slice(1);
-
-      const filterProduct = products.filter((i: any) => {
-        return i.title.indexOf(formatSearchValue) !== -1;
-      });
-
-      state.products = searchValue ? filterProduct : products;
+      state.products = products;
       state.selectedProducts = updatePricingArr;
       state.totalAmount = totalProductPrice(updatePricingArr).sum;
     });

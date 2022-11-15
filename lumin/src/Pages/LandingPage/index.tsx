@@ -10,6 +10,7 @@ import { RootState } from "../../store/store";
 const LandingPage = () => {
   const [showSideBar, setShowSideBar] = useState(false);
   const [currency, setCurrency] = useState("USD");
+  const [searchValue, setSearchValue] = useState("");
 
   const onShowSideBar = () => {
     setShowSideBar(!showSideBar);
@@ -27,6 +28,8 @@ const LandingPage = () => {
         onShowSideBar={onShowSideBar}
         setCurrency={setCurrency}
         currency={currency}
+        setSearchValue={setSearchValue}
+        searchValue={searchValue}
       />
       <SideBar open={showSideBar} close={onShowSideBar}>
         <Cart
@@ -34,6 +37,8 @@ const LandingPage = () => {
           setShowSideBar={setShowSideBar}
           setCurrency={setCurrency}
           currency={currency}
+          setSearchValue={setSearchValue}
+          searchValue={searchValue}
         />
       </SideBar>
     </>

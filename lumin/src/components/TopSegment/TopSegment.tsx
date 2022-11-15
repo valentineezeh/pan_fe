@@ -2,7 +2,13 @@ import { Grid, Typography } from "@material-ui/core";
 import { TopSegmentStyle } from "./TopSegment.style";
 import { FilterInput } from "../Common/FilterInput";
 
-const TopSegment = () => {
+const TopSegment = ({
+  setSearchValue,
+  searchValue,
+}: {
+  setSearchValue: (value: string) => void;
+  searchValue: string;
+}) => {
   const classes = TopSegmentStyle();
   return (
     <div className={classes.root}>
@@ -34,6 +40,8 @@ const TopSegment = () => {
           <FilterInput
             className={classes.formControl}
             filterParams={"Filter by"}
+            setSearchValue={setSearchValue}
+            searchValue={searchValue}
           />
         </Grid>
       </Grid>
