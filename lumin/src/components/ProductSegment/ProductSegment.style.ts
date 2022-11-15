@@ -2,12 +2,12 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const ProductSegmentStyle = makeStyles((theme) => ({
   root: {
-    // margin: "auto",
     width: "100%",
     height: "100%",
     background: "#e3e6e3",
     alignItems: "center",
     justifyContent: "center",
+    paddingBottom: "50px",
   },
   image: {
     width: "128px",

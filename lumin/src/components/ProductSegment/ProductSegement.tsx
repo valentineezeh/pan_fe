@@ -25,7 +25,7 @@ const ProductSegment = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchProducts(currency));
+    dispatch(fetchProducts({ currency }));
   }, [dispatch, currency]);
 
   const { products, isLoading } = useSelector(
@@ -37,21 +37,26 @@ const ProductSegment = ({
       <TopSegment />
       <div className={classes.root}>
         <Grid container>
-          {isLoading && (
+          {isLoading ? (
             <Grid container justify="center">
               <Loader type="Circles" color="#51594f" height={800} />
             </Grid>
+          ) : products?.length === 0 ? (
+            <Grid container justify="center">
+              <h1>Product not found</h1>
+            </Grid>
+          ) : (
+            products?.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                setCurrency={setCurrency}
+                currency={currency}
+                onShowSideBar={onShowSideBar}
+                showSideBar={showSideBar}
+              />
+            ))
           )}
-          {products?.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              setCurrency={setCurrency}
-              currency={currency}
-              onShowSideBar={onShowSideBar}
-              showSideBar={showSideBar}
-            />
-          ))}
         </Grid>
       </div>
     </>
