@@ -10,7 +10,8 @@ interface Props {
   filterParams: string;
   currency?: string;
   setCurrency?: (value: string) => void;
-  setSearchValue: (value: string) => void;
+  setSearchValue?: (value: string) => void;
+  selectedCurrency: string;
 }
 
 export const FilterInput = ({
@@ -19,6 +20,7 @@ export const FilterInput = ({
   setCurrency,
   currency,
   setSearchValue,
+  selectedCurrency,
 }: Props) => {
   const classes = CommonStyles();
   const dispatch = useDispatch();
@@ -36,14 +38,14 @@ export const FilterInput = ({
           id="outlined-basic"
           label="Search"
           variant="outlined"
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => setSearchValue?.(e.target.value)}
         />
       ) : (
         <Select
           labelId="demo-customized-select-label"
           id="demo-customized-select"
           onChange={handleChange}
-          value={currency || "USD"}
+          value={selectedCurrency || currency || "USD"}
         >
           {["USD", "CAD", "NGN"].map((item, index) => (
             <MenuItem value={item} key={index} className={classes.filterOption}>

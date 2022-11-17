@@ -8,16 +8,16 @@ export const CheckoutProduct = ({
   selectedProducts,
   subTotal,
   total,
-  currency,
+  selectedCurrency,
 }: {
   selectedProducts: ProductData[];
   subTotal: { sum: number };
   total: number;
-  currency: string;
+  selectedCurrency: string;
 }) => {
   const classes = CheckoutStyle();
   const currencySymbol =
-    currencyList.find((i) => i.currency === currency)?.symbol ?? "";
+    currencyList.find((i) => i.currency === selectedCurrency)?.symbol ?? "";
 
   return (
     <Grid item xs={6}>

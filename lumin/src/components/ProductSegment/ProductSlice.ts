@@ -22,6 +22,7 @@ interface ProductState {
   totalAmount?: number;
   showModal: boolean;
   cartIcon: string;
+  selectedCurrency?: string;
 }
 
 const initialState: ProductState = {
@@ -30,6 +31,7 @@ const initialState: ProductState = {
   totalAmount: 0,
   showModal: false,
   cartIcon: "",
+  selectedCurrency: "",
 };
 
 const updatePricing = (firstArray: Array<ProductData>, secondArray: any) => {
@@ -75,7 +77,10 @@ export const fetchProducts = createAsyncThunk(
         },
       });
       const { data } = res.data;
-      return data;
+      return {
+        data,
+        currency,
+      };
     } catch (error) {
       throw error;
     }
@@ -153,12 +158,13 @@ const productSlice = createSlice({
       state.isLoading = false;
       const newState = Object.assign([], state.selectedProducts);
 
-      const { products } = action.payload;
-      const updatePricingArr = updatePricing(newState, products);
+      const { data, currency } = action.payload;
+      const updatePricingArr = updatePricing(newState, data.products);
 
-      state.products = products;
+      state.products = data.products;
       state.selectedProducts = updatePricingArr;
       state.totalAmount = totalProductPrice(updatePricingArr).sum;
+      state.selectedCurrency = currency;
     });
 
     builder.addCase(addProductToCart.fulfilled, (state, action) => {

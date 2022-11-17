@@ -19,9 +19,12 @@ const CheckoutPage = () => {
     setShowSideBar(!showSideBar);
   };
 
-  const { selectedProducts } = useSelector((state: RootState) => ({
-    selectedProducts: state.productReducer.selectedProducts ?? [],
-  }));
+  const { selectedProducts, selectedCurrency } = useSelector(
+    (state: RootState) => ({
+      selectedProducts: state.productReducer.selectedProducts ?? [],
+      selectedCurrency: state.productReducer.selectedCurrency,
+    })
+  );
 
   const subTotal = totalProductPrice(selectedProducts);
   const tax = (subTotal.sum * 5) / 100;
@@ -39,7 +42,7 @@ const CheckoutPage = () => {
             selectedProducts={selectedProducts}
             subTotal={subTotal}
             total={total}
-            currency={currency}
+            selectedCurrency={selectedCurrency ?? ""}
           />
         </Grid>
         <SideBar open={showSideBar} close={onShowSideBar}>
@@ -48,6 +51,7 @@ const CheckoutPage = () => {
             setShowSideBar={setShowSideBar}
             setCurrency={setCurrency}
             currency={currency}
+            selectedCurrency={selectedCurrency ?? ""}
           />
         </SideBar>
       </div>

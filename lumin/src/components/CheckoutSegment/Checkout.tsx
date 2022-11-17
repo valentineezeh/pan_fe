@@ -41,8 +41,7 @@ export const ProductCard = ({
         </Grid>
         <Grid item>
           <Typography variant="subtitle1">
-            {currencySymbol}
-            {prod.price}
+            {currencySymbol} {prod.price}
           </Typography>
         </Grid>
       </Grid>

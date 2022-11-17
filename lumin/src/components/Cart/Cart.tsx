@@ -13,8 +13,7 @@ interface Props {
   setShowSideBar: (value: boolean) => void;
   setCurrency: (value: string) => void;
   currency: string;
-  setSearchValue: (value: string) => void;
-  searchValue: string;
+  selectedCurrency: string;
 }
 
 export const Cart = ({
@@ -22,8 +21,7 @@ export const Cart = ({
   setShowSideBar,
   setCurrency,
   currency,
-  setSearchValue,
-  searchValue,
+  selectedCurrency,
 }: Props) => {
   const classes = CartStyle();
 
@@ -44,8 +42,7 @@ export const Cart = ({
             filterParams="USD"
             setCurrency={setCurrency}
             currency={currency}
-            setSearchValue={setSearchValue}
-            searchValue={searchValue}
+            selectedCurrency={selectedCurrency}
           />
         </Grid>
         <Grid item xs>
