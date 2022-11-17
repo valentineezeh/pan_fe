@@ -8,7 +8,6 @@ import { fetchProducts } from "../ProductSegment/ProductSlice";
 interface Props {
   className: string;
   filterParams: string;
-  currency?: string;
   setCurrency?: (value: string) => void;
   setSearchValue?: (value: string) => void;
   selectedCurrency: string;
@@ -18,7 +17,6 @@ export const FilterInput = ({
   className,
   filterParams,
   setCurrency,
-  currency,
   setSearchValue,
   selectedCurrency,
 }: Props) => {
@@ -45,7 +43,7 @@ export const FilterInput = ({
           labelId="demo-customized-select-label"
           id="demo-customized-select"
           onChange={handleChange}
-          value={selectedCurrency || currency || "USD"}
+          value={selectedCurrency || "USD"}
         >
           {["USD", "CAD", "NGN"].map((item, index) => (
             <MenuItem value={item} key={index} className={classes.filterOption}>
