@@ -6,11 +6,13 @@ import { CommonStyles } from "./styles";
 import { fetchProducts } from "../ProductSegment/ProductSlice";
 
 interface Props {
-  className: string;
-  filterParams: string;
+  className?: string;
+  filterParams?: string;
   setCurrency?: (value: string) => void;
   setSearchValue?: (value: string) => void;
-  selectedCurrency: string;
+  selectedCurrency?: string;
+  currency?: string;
+  searchValue?: string;
 }
 
 export const FilterInput = ({
@@ -19,9 +21,13 @@ export const FilterInput = ({
   setCurrency,
   setSearchValue,
   selectedCurrency,
+  currency,
+  searchValue,
 }: Props) => {
   const classes = CommonStyles();
   const dispatch = useDispatch();
+
+  console.log("node:14.17.0-alpine >>> ", currency);
 
   const handleChange = (event: ChangeEvent<{ value: unknown }>) => {
     const value = String(event.target.value);

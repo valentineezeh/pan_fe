@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Link } from "react-router-dom";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
@@ -9,11 +10,13 @@ import { ProductData } from "../ProductSegment/ProductSlice";
 import { RootState } from "../../store/store";
 
 interface Props {
-  productData: Array<ProductData>;
-  setShowSideBar: (value: boolean) => void;
-  setCurrency: (value: string) => void;
-  currency: string;
-  selectedCurrency: string;
+  productData?: Array<ProductData>;
+  setShowSideBar?: (value: boolean) => void;
+  setCurrency?: (value: string) => void;
+  currency?: string;
+  selectedCurrency?: string;
+  setSearchValue?: React.Dispatch<React.SetStateAction<string>>;
+  searchValue?: string;
 }
 
 export const Cart = ({
@@ -35,13 +38,13 @@ export const Cart = ({
         <Grid item xs container direction="column">
           <ChevronLeft
             className={classes.icon}
-            onClick={() => setShowSideBar(false)}
+            onClick={() => setShowSideBar?.(false)}
           />
           <FilterInput
             className={classes.formControl}
             filterParams="USD"
             setCurrency={setCurrency}
-            currency={currency}
+            currency={currency ?? ""}
             selectedCurrency={selectedCurrency}
           />
         </Grid>
